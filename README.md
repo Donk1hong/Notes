@@ -39,11 +39,11 @@
 
 | Приветствие |                                         Регистрация                                          |                                           Вход                                            |
 |:---:|:--------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-| ![welcome](https://github.com/user-attachments/assets/fd87e1ce-6bc5-42e8-b063-dcf222a7e201) | ![register](https://github.com/user-attachments/assets/b448bc24-ba04-4d34-a968-3bbd90a7c6a3) | ![login](https://github.com/user-attachments/assets/5edcad8c-d2ca-4723-87f0-640446cfa64e) |
+| ![welcome](https://github.com/user-attachments/assets/0e17d13c-d9f3-4089-946a-dd6442fd349f) | ![register](https://github.com/user-attachments/assets/c140d5bc-b270-4664-bc67-2b56368bc59d) | ![login](https://github.com/user-attachments/assets/12d58132-00d5-47fe-94e1-471d394a56e2)|
 
 | Список заметок |                                       Редактирование                                       |
 |:---:|:------------------------------------------------------------------------------------------:|
-| ![notes](https://github.com/user-attachments/assets/dddebe90-2bf1-48b1-9448-d4bad6aaea9e) | ![update](https://github.com/user-attachments/assets/45a1c8d6-8884-4137-901a-db52fb07621c) |
+| ![notes](https://github.com/user-attachments/assets/ffbd24de-7c60-42f5-af98-b249aaa71020)| ![update](https://github.com/user-attachments/assets/f2f43cb0-da04-4a6d-9465-bba730c9603f)|
 
 ---
 
