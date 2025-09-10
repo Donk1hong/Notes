@@ -1,0 +1,855 @@
+:root {
+    --font-size: 14px;
+
+    --background: linear-gradient(135deg, #1a1611 0%, #2a231c 100%);
+    --background-solid: #1a1611;
+    --foreground: #f5f1eb;
+
+    --card: #2a231c;
+    --card-foreground: #f5f1eb;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+    --popover: #2a231c;
+    --popover-foreground: #f5f1eb;
+
+    --primary: linear-gradient(135deg, #d4a574 0%, #b8956b 100%);
+    --primary-solid: #d4a574;
+    --primary-foreground: #1a1611;
+    --primary-hover: #e6b885;
+
+    --secondary: #3d332b;
+    --secondary-foreground: #e0d6c7;
+    --secondary-hover: #4a3f37;
+
+    --muted: #3d332b;
+    --muted-foreground: #a69c8e;
+
+    --accent: #4a3f37;
+    --accent-foreground: #e0d6c7;
+    --accent-hover: #5a4e44;
+
+    --destructive: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    --destructive-solid: #ff6b6b;
+    --destructive-foreground: #ffffff;
+    --destructive-hover: #ff5252;
+
+    --border: rgba(212, 165, 116, 0.2);
+    --input-background: #2a231c;
+    --input-border: rgba(212, 165, 116, 0.3);
+    --input-focus: #d4a574;
+
+    --ring: rgba(212, 165, 116, 0.4);
+
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.625rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    --category-work: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --category-personal: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --category-blog: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --category-default: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    font-size: var(--font-size);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--foreground);
+    margin: 0;
+}
+
+h3 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--card-foreground);
+    margin: 0;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.header {
+    border-bottom: 1px solid var(--border);
+    background: var(--background-solid);
+    padding: 1.5rem 0;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.header-title-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-subtitle {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-foreground);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    background: none;
+}
+
+.btn-primary {
+    background: var(--primary-solid);
+    color: var(--primary-foreground);
+    box-shadow: 0 2px 4px rgba(212, 165, 116, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.btn-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.btn-sm {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    font-size: 0.75rem;
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+}
+
+.icon-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.search-container {
+    max-width: 28rem;
+    margin: 0 auto 2rem;
+    position: relative;
+}
+
+.search-input-wrapper {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    font-size: 0.875rem;
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-lg);
+    color: var(--foreground);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+.search-input::placeholder {
+    color: var(--muted-foreground);
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted-foreground);
+}
+
+.main-content {
+    padding: 2rem 0;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* всегда 3 колонки */
+    gap: 1.5rem;
+    max-width: 1200px; /* ограничим ширину сетки */
+    margin: 0 auto;    /* центрируем */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.note-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: noteAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.note-card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+}
+
+.note-card:nth-child(1) { animation-delay: 0.1s; }
+.note-card:nth-child(2) { animation-delay: 0.1s; }
+.note-card:nth-child(3) { animation-delay: 0.1s; }
+
+.note-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.note-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--card-foreground);
+    flex: 1;
+}
+
+.note-actions {
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.note-card:hover .note-actions {
+    opacity: 1;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.category-work {
+    background: var(--category-work);
+    color: white;
+}
+
+.category-personal {
+    background: var(--category-personal);
+    color: white;
+}
+
+.category-blog {
+    background: var(--category-blog);
+    color: black;
+}
+
+.category-default {
+    background: var(--category-default);
+    color: black;
+}
+
+.note-content {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+.note-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(212, 165, 116, 0.1);
+    font-size: 0.75rem;
+    margin-top: auto;
+    color: var(--muted-foreground);
+}
+
+.refresh-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--card);
+    color: var(--card-foreground);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1001;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.modal-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--muted-foreground);
+}
+
+.modal-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-lg);
+    color: var(--foreground);
+    font-size: 0.875rem;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Ошибки валидации */
+.input-error {
+    border: 1px solid #d9534f !important; /* красная рамка */
+    background: #2a1c1c; /* тёмный фон внутри поля */
+    color: #f5f1eb;
+}
+
+.input-error:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.4);
+}
+
+/* Текст ошибки */
+.validation-error {
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    background: #5a1f1f;
+    color: #f1c6c6;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-lg);
+    text-align: left;
+    border: 1px solid rgba(231, 76, 60, 0.4);
+}
+
+/* Кнопка по умолчанию */
+button {
+    background: var(--primary-solid);
+    color: var(--primary-foreground);
+    font-weight: 500;
+    padding: 0.75rem;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
+/* Кнопка при ошибках */
+button.error {
+    background: #d9534f !important;
+    color: #fff !important;
+    animation: shake 0.4s ease, pulse 1.5s infinite ease-in-out;
+    /* убираем transition для кнопки с ошибкой */
+    transition: none !important;
+}
+
+/* Наведение не должно перебивать анимацию */
+button.error:hover {
+    background: #e74c3c !important;
+}
+
+/* Анимация "трусится" */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+    50%  { box-shadow: 0 0 15px 5px rgba(231, 76, 60, 0.4); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+}
+
+
+/* Контейнер модалки */
+.noteCardModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.noteCardModal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Фон */
+.noteCardModal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+/* Содержимое */
+.noteCardModal-content {
+    position: relative;
+    background: var(--card);
+    color: var(--card-foreground);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--card-shadow);
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1001;
+    animation: slideUp 0.3s ease;
+}
+
+/* Хедер */
+.noteCardModal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.noteCardModal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Тело */
+.noteCardModal-body {
+    display: flex;
+    flex-direction: column;
+    white-space: pre-line;
+}
+
+.noteCardModal-body .category-badge {
+    align-self: flex-start;
+}
+
+#noteCardModalText {
+    color: var(--foreground);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* Футер */
+.noteCardModal-footer {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    border-top: 1px solid rgba(212, 165, 116, 0.1);
+    padding-top: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* Контейнер сетки с центровкой по вертикали и горизонтали */
+.no-results-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 55vh;
+    left: 48vh;
+}
+
+/* Карточка" */
+.no-results-card {
+    justify-content: center;
+    padding: 2rem 3rem;
+    gap: 1rem;
+    text-align: center;
+    animation: noteAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+/* SVG внутри карточки */
+.no-results-card svg {
+    width: 3rem;
+    height: 3rem;
+    stroke: var(--muted-foreground);
+    fill: none;
+}
+
+/* Текст внутри карточки */
+.no-results-card p {
+    color: var(--muted-foreground);
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Кнопка-аватарка для ЛК */
+.user-avatar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Плавающая кнопка "Новая заметка" */
+.floating-add-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.3rem;
+    height: 3.3rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1100;
+}
+
+.btn-logout {
+    background: var(--destructive-solid);
+    color: var(--destructive-foreground);
+    font-size: 1rem;              /* чуть крупнее текста */
+    font-weight: 600;             /* жирнее */
+    padding: 0.6rem 1.3rem;      /* выше и шире */
+    min-width: 100px;             /* чтобы форма была ровная по ширине */
+    border-radius: var(--radius-lg);
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 8px rgba(255, 107, 107, 0.3);
+}
+
+.btn-logout:hover {
+    background: var(--destructive-hover);
+    transform: translateY(-2px);  /* чуть больше подъём */
+    box-shadow: 0 6px 16px rgba(255, 82, 82, 0.4);
+}
+
+
+.welcome-text {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-align: center;
+    color: var(--foreground);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    opacity: 0;
+    animation: gentleAppear 1.2s ease-out forwards;
+}
+
+.welcome-text::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0.6;
+    transform: scaleX(0);
+    transition: transform 0.8s ease;
+}
+
+.welcome-text:hover::before {
+    transform: scaleX(1);
+}
+
+/* Плавное появление с легким подъемом */
+@keyframes gentleAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    100% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .welcome-text {
+        font-size: 1.4rem;
+        padding: 0 1rem;
+    }
+}
+
+/* Анимация появления */
+@keyframes noteAppear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Анимация появления ошибки */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes noteAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-solid);
+    border-radius: var(--radius-lg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+
+::selection {
+    background: var(--primary-solid);
+    color: var(--primary-foreground);
+}
+
+
+@media (max-width: 768px) {
+    :root {
+        --font-size: 16px;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .header-actions {
+        justify-content: center;
+    }
+
+    .user-profile {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .note-actions {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
