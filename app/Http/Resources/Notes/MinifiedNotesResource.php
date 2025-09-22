@@ -12,6 +12,7 @@ class MinifiedNotesResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'user_id' => $this->user_id,
             'description' => $this->description,
             'category' => $this->category,
             'creation_date' => $this->created_at,

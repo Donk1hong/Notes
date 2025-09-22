@@ -10,7 +10,9 @@ class UpdateNoteRequest extends ApiRequests
     public function rules(): array
     {
         return [
-            //
+            'title' => ['string', 'max:100'],
+            'category' => ['string'],
+            'description' => ['string', 'max:355'],
         ];
     }
 }

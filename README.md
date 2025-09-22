@@ -39,11 +39,11 @@
 
 | Приветствие |                                         Регистрация                                          |                                           Вход                                            |
 |:---:|:--------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-| ![welcome](https://github.com/user-attachments/assets/fd87e1ce-6bc5-42e8-b063-dcf222a7e201) | ![register](https://github.com/user-attachments/assets/b448bc24-ba04-4d34-a968-3bbd90a7c6a3) | ![login](https://github.com/user-attachments/assets/5edcad8c-d2ca-4723-87f0-640446cfa64e) |
+| ![welcome](https://github.com/user-attachments/assets/0e17d13c-d9f3-4089-946a-dd6442fd349f) | ![register](https://github.com/user-attachments/assets/c140d5bc-b270-4664-bc67-2b56368bc59d) | ![login](https://github.com/user-attachments/assets/12d58132-00d5-47fe-94e1-471d394a56e2)|
 
 | Список заметок |                                       Редактирование                                       |
 |:---:|:------------------------------------------------------------------------------------------:|
-| ![notes](https://github.com/user-attachments/assets/dddebe90-2bf1-48b1-9448-d4bad6aaea9e) | ![update](https://github.com/user-attachments/assets/45a1c8d6-8884-4137-901a-db52fb07621c) |
+| ![notes](https://github.com/user-attachments/assets/ffbd24de-7c60-42f5-af98-b249aaa71020)| ![update](https://github.com/user-attachments/assets/f2f43cb0-da04-4a6d-9465-bba730c9603f)|
 
 ---
 
@@ -70,7 +70,7 @@
     composer install
     npm install
     ```
-
+    
 3. **Настройка окружения**
     ```bash
     cp .env.example .env
@@ -88,6 +88,7 @@
 
 5. **Запуск сервера разработки**
     ```bash
+    npm run build
     php artisan serve
     ```
 
@@ -127,14 +128,8 @@ Notes-app/
 ## 🛠 Будущие улучшения
 
 - 📌 Категории заметок
-- 🔍 Поиск по заметкам
 - 🏷️ Теги и фильтры
-- 🌙 Темная тема
-- ☁️ Экспорт/импорт (PDF, TXT, Markdown)
-- 📡 REST API
-- 📱 PWA / мобильная версия
-- 👥 Совместный доступ
-
+ 
 ---
 
 ## 🎥 Демонстрация
@@ -142,6 +137,19 @@ Notes-app/
 *GIF-демонстрация работы приложения будет добавлена позже.*
 
 ---
+
+## 🧪 Postman-коллекция
+
+В репозитории есть коллекция для тестирования API:
+
+- Коллекция: [`postman/Notes-app.postman_collection.json`](postman/Notes-app.postman_collection.json)  
+- Окружение: [`postman/Notes-app-env.json`](postman/Notes-app-env.json)
+
+**Использование:**
+1. Импортируйте коллекцию и окружение в Postman.
+2. Укажите `{{host}}` = `http://localhost:8000/api/v1`.
+3. Выполните `Account → register/login`, сохраните `{{token}}`.
+4. Дальше используйте CRUD-запросы к заметкам.
 
 ## 👤 Автор
 

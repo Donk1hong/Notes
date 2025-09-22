@@ -7,6 +7,6 @@
     @vite('resources/css/error-style.css')
 </head>
 <body>
-@yield('error-content')
+    @yield('error-content')
 </body>
 </html>

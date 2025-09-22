@@ -16,7 +16,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::apiResources([
-    'users' => UsersController::class,
-    'notes' => NotesController::class,
-]);
+Route::prefix('v1')->group(function () {
+    Route::controller(UsersController::class)->group(function () {
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::middleware('guest.api')->group(function () {
+                Route::post('register', 'register');
+                Route::post('login', 'login');
+                Route::post('forgot/password', 'forgotPassword');
+            });
+            Route::get('user', 'show');
+            Route::post('logout', 'logout');
+        });
+
+    });
+
+    Route::controller(NotesController::class)->prefix('user')->group(function () {
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('notes', 'index');
+            Route::post('note/create', 'store');
+            Route::patch('note/update/{note_id}', 'update');
+            Route::delete('note/delete/{note_id}', 'destroy');
+        });
+    });
+});
+
+
+

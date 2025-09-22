@@ -19,100 +19,76 @@ class UsersController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        try {
-            $data = $request->validated();
+        $data = $request->validated();
 
-            $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
 
-            User::create($data);
+        User::create($data);
 
-            return redirect()->route('login.form')->with('success', 'Регистрация прошла успешна');
-
-        } catch (\Exception $e) {
-            abort(500);
-        }
-
+        return redirect()->route('login.form')->with('success', 'Регистрация прошла успешна');
     }
 
     public function login(LoginRequest $request)
     {
 
-        try {
-            $credentials = $request->validated();
-            $remember = $request->filled('remember_token');
+        $credentials = $request->validated();
 
-            $userExists = User::where('email', $credentials['email'])->exists();
+        $remember = $request->filled('remember_token');
 
-            if (!$userExists) {
-                return redirect()->back()
-                    ->withErrors(['email' => 'Пользователь с такой почтой не найден'])
-                    ->withInput();
-            }
+        $userExists = User::where('email', $credentials['email'])->exists();
 
-            if (Auth::attempt($credentials, $remember)) {
-                return redirect()->route('home');
-            } else {
-                return redirect()->back()
-                    ->withErrors(['password' => 'Неверный пароль'])
-                    ->withInput();
-            }
+        if (!$userExists) {
+            return redirect()->back()
+                ->withErrors(['email' => 'Пользователь с такой почтой не найден'])
+                ->withInput();
+        }
 
-        } catch (\Exception $e) {
-            abort(500);
+        if (Auth::attempt($credentials, $remember)) {
+            return redirect()->route('home');
+        } else {
+            return redirect()->back()
+                ->withErrors(['password' => 'Неверный пароль'])
+                ->withInput();
         }
     }
 
     public function logout() {
 
-        try {
-            Auth::logout();
+        Auth::logout();
 
-            return redirect()->route('home');
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return redirect()->route('home');
     }
 
     public function forgotPassword(ForgotPassword $request)
     {
+        $status = Password::sendResetLink(
+            $request->validated()
+        );
 
-        try {
-            $status = Password::sendResetLink(
-                $request->validated()
-            );
-
-            return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __('auth.email')]);
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __('auth.email')]);
 
     }
 
     public function resetPassword(ResetPassword $request) {
 
-        try {
-            $status = Password::reset(
-                $request->validated(),
-                function (User $user, string $password) {
-                    $user->forceFill([
-                        'password' => Hash::make($password)
-                    ])->setRememberToken(Str::random(60));
+        $status = Password::reset(
+            $request->validated(),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
 
-                    $user->save();
+                $user->save();
 
-                    event(new PasswordReset($user));
-                }
-            );
+                event(new PasswordReset($user));
+            }
+        );
 
-            return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login.form')->with('status', __('Пароль успешно сброшен'))
-                : back()->withErrors(['email' => [__('auth.email')]]);
-        } catch (\Exception $e) {
-            abort(500);
-        }
-
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login.form')->with('status', __('Пароль успешно сброшен'))
+            : back()->withErrors(['email' => [__('auth.email')]]);
     }
 }
 

@@ -11,62 +11,46 @@ class NotesController extends Controller
 {
     public function create(NotesRequest $request) {
 
-        try {
-            $note = $request->validated();
 
-            $note['user_id'] = auth()->id();
+        $note = $request->validated();
 
-            Note::create($note);
+        $note['user_id'] = auth()->id();
 
-            return redirect()->route('home');
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        Note::create($note);
+
+        return redirect()->route('home');
     }
 
     public function edit(Note $note, NotesRequest $request) {
 
-        try {
-            $note->update($request->validated());
-            $note->save();
+        $note->update($request->validated());
 
-            return redirect()->route('home');
+        $note->save();
 
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return redirect()->route('home');
     }
 
     public function delete(Note $note) {
 
-        try {
-            $note->forceDelete();
+        $note->forceDelete();
 
-            return redirect()->route('home');
-
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return redirect()->route('home');
     }
 
     public function search(Request $request) {
 
-        try {
-            $q = trim((string) $request->input('search', ''));
+        $q = trim((string) $request->input('search', ''));
 
-            $notes = $request->user()->notes()
-                ->when($q !== '', function ($qb) use ($q) {
-                    $qb->where(function ($w) use ($q) {
-                        $w->where('title', 'like', "%{$q}%");
-                    });
-                })
-                ->orderByDesc('updated_at')
-                ->paginate(12)
-                ->withQueryString();
+        $notes = $request->user()->notes()
+            ->when($q !== '', function ($qb) use ($q) {
+                $qb->where(function ($w) use ($q) {
+                    $w->where('title', 'like', "%{$q}%");
+                });
+            })
+            ->orderByDesc('updated_at')
+            ->paginate(12)
+            ->withQueryString();
 
-            return view('components.noteCard', compact('notes'));
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return view('components.noteCard', compact('notes'));
     }
 }
