@@ -11,26 +11,33 @@ class NotesController extends Controller
 {
     public function create(NotesRequest $request) {
 
+        $user = auth()->user();
 
         $note = $request->validated();
 
         $note['user_id'] = auth()->id();
 
-        Note::create($note);
+        $user->notes()->create($note)->getPerPage();
 
         return redirect()->route('home');
     }
 
-    public function edit(Note $note, NotesRequest $request) {
+    public function edit(NotesRequest $request) {
+
+        $user = auth()->user();
+
+        $note = $user->notes();
 
         $note->update($request->validated());
 
-        $note->save();
-
         return redirect()->route('home');
     }
 
-    public function delete(Note $note) {
+    public function delete() {
+
+        $user = auth()->user();
+
+        $note = $user->notes();
 
         $note->forceDelete();
 

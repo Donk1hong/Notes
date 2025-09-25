@@ -3,13 +3,13 @@
         <div class="header-content">
             <div class="header-title-section">
                 <div class="header-title">
-                    <span>📝</span>
+                    <span style="font-size: 20px">📝</span>
                     <h1>Мои заметки</h1>
                 </div>
             </div>
             <div class="header-actions">
                 @if(auth()->guest())
-                    <a href="{{route('login.form')}}"><button class="btn btn-primary">Вход и регистрация</button></a>
+                    <a href="{{ route('login.form') }}" class="btn btn-primary">Вход и регистрация</a>
                 @else
                     <form method="post" action="{{ route('logout.action') }}">
                         @csrf

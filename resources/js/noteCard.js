@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const results = document.getElementById("searchResults");
 
-    // === Делегирование событий для карточек/кнопок внутри результатов ===
     if (results) {
         results.addEventListener("click", (e) => {
-            // 1) Кнопка редактирования
             const editBtn = e.target.closest(".note-actions .btn[data-id]");
             if (editBtn) {
                 e.preventDefault();
@@ -20,10 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 2) Клик по карточке (открыть предпросмотр)
             const card = e.target.closest(".note-card");
             if (card) {
-                if (e.target.closest("button, form, a")) return; // игнорируем вложенные элементы
+                if (e.target.closest("button, form, a")) return;
                 const modal = card.nextElementSibling;
                 if (modal && modal.classList.contains("noteCardModal")) {
                     modal.classList.add("show");
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // === Кнопка добавления ===
     const addBtn = document.getElementById("openModal");
     const createModal = document.getElementById("noteModal");
     if (addBtn && createModal) {
@@ -48,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    // === Поиск ===
     const input = document.getElementById("searchInput");
     const form  = document.getElementById("noteSearchForm");
     const csrf  = document.querySelector('input[name="_token"]')?.value;
@@ -84,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new Error(`HTTP ${resp.status}`);
                     }
 
-                    results.innerHTML = await resp.text(); // карточки обновятся, делегатор всё поймает
+                    results.innerHTML = await resp.text();
                 } catch (err) {
                     if (err.name === "AbortError") return;
                     console.error("Ошибка поиска:", err);
@@ -103,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 300);
         });
 
-        // блокируем Enter
         form.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.keyCode === 13) e.preventDefault();
         });
