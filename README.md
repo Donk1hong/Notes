@@ -118,6 +118,8 @@ Notes-app/
 
 Для тестирования API эндпоинтов доступна готовая Postman-коллекция.
 
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/47984426-16a9fcd6-2c58-4bce-a699-d410b4e39099?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D47984426-16a9fcd6-2c58-4bce-a699-d410b4e39099%26entityType%3Dcollection%26workspaceId%3Dfac36783-f246-4412-8ce6-2432522bb708)
+
 Коллекция для тестирования API доступна в двух форматах в репозитории:
 -   **Коллекция:** [`postman/Notes-app.postman_collection.json`](./postman/Notes-app.postman_collection.json)
 -   **Окружение:** [`postman/Notes-app-env.postman_environment.json`](./postman/Notes-app-env.postman_environment.json)
@@ -134,17 +136,7 @@ Notes-app/
 ## 👤 Автор
 
 -   **GitHub:** [Donk1hong](https://github.com/Donk1hong)
--   **Вопросы и предложения:** [Создать Issue](https://github.com/Donk1hong/Notes-app/issues)
 
 ---
 
 ## ✨ Учебный проект для практики разработки на Laravel.
-
-### Что вам нужно сделать дальше:
-
-1.  **Создайте папку `postman`** в корне вашего проекта.
-2.  **Создайте два файла** внутри этой папки:
-    *   `Notes-app.postman_collection.json`
-    *   `Notes-app-env.postman_environment.json`
-3.  **Скопируйте содержимое JSON-файлов** (я подготовлю их в следующем сообщении) в соответствующие файлы.
-4.  (Опционально) Создайте публичную ссылку для вашей коллекции на Postman и замените `https://god.gw.postman.com/run-collection/...` в коде кнопки на вашу реальную ссылку.
