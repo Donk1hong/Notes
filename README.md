@@ -1,142 +1,212 @@
-# 📝 Notes-app
+# Notes API (Laravel + Sanctum)
 
-![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-^8.1-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-
-> Простое и удобное веб-приложение для **создания и хранения личных заметок**.  
-> Разработано на **Laravel (PHP)** в рамках учебной практики.
+Простой REST API для заметок (регистрация, логин, CRUD заметок, смена пароля и удаление аккаунта). 
+Документация доступна в **Swagger UI** и в **Postman-коллекции**. Проект разворачивается через **Docker Compose**.
 
 ---
 
-## 📚 Содержание
-
-- [🚀 Основные возможности](#-основные-возможности)
-- [📸 Скриншоты](#-скриншоты)
-- [⚙️ Технологический стек](#️-технологический-стек)
-- [🔧 Установка и запуск](#-установка-и-запуск)
-- [📂 Структура проекта](#-структура-проекта)
-- [🧪 Postman-коллекция](#-postman-коллекция)
-- [👤 Автор](#-автор)
+## Стек
+- **PHP / Laravel**
+- **Sanctum** (Bearer токены)
+- **OpenAPI 3.0** (Swagger UI, `L5_SWAGGER_GENERATE_ALWAYS=true`)
+- **MySQL** (хост контейнера: `db`)
+- **Mailhog** (для перехвата писем; UI по `http://localhost:8025`)
+- **Docker / Docker Compose**
 
 ---
 
-## 🚀 Основные возможности
+## Конфигурация (`.env`)
 
-- 👋 Приветственная страница  
-- 🔐 Регистрация и аутентификация пользователей  
-- 📝 **CRUD**: создание, просмотр, редактирование и удаление заметок  
-- 🗂️ Хранение заметок в базе данных с привязкой к пользователю  
-- 🔒 Безопасность: валидация, CSRF-защита, авторизация  
-- 📱 Адаптивный интерфейс  
+Проект ожидает следующие ключевые переменные окружения (ваши актуальные значения — ниже):
+
+```dotenv
+APP_NAME=Notes
+APP_ENV=local
+APP_KEY=base64:***
+APP_DEBUG=true
+APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=notes
+DB_USERNAME=root
+DB_PASSWORD=root
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_FROM_ADDRESS="test@example.com"
+MAIL_FROM_NAME="MyApp"
+
+L5_SWAGGER_GENERATE_ALWAYS=true
+```
+
+> **Важно:** `DB_HOST=db` — имя сервиса БД в `docker-compose.yml`.  
+> **Mailhog:** для локалки почта не уходит наружу, а попадает в Mailhog UI (`http://localhost:8025`).
 
 ---
 
-## 📸 Скриншоты
+## Пример `docker-compose.yml` (минимально-достаточный)
 
-| Приветствие | Регистрация | Вход |
-|:---:|:---:|:---:|
-| ![welcome](https://github.com/user-attachments/assets/7d51f437-ba30-4d85-8318-4125ad88b631) | ![register](https://github.com/user-attachments/assets/eb06aefd-f41a-4834-87da-a2a47dcb2ab0) | ![login](https://github.com/user-attachments/assets/611ac9f2-9a72-44e7-bb48-1c0a967cffdf) |
+> Подправьте под ваш образ/порты, если они отличаются.
 
-| Список заметок | Создание | Редактирование |
-|:---:|:---:|:---:|
-| ![notes](https://github.com/user-attachments/assets/7a7d0843-2db7-4227-955b-b4e41d989f73) | ![create](https://github.com/user-attachments/assets/ce001aa4-08f9-41ad-9670-7431c121e085) | ![update](https://github.com/user-attachments/assets/9ff0f364-d662-4896-9db2-b3fc47f24a87) |
+```yaml
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"   # Laravel HTTP
+    env_file: .env
+    depends_on:
+      - db
+      - mailhog
+    command: sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: notes
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+
+volumes:
+  db_data:
+```
 
 ---
 
-## ⚙️ Технологический стек
+## Аутентификация
 
-- **Backend:** Laravel (PHP)  
-- **Frontend:** Blade, CSS, JavaScript  
-- **ORM:** Eloquent  
-- **База данных:** MySQL  
-- **Контроль версий:** Git + GitHub  
+Используется Bearer-токен (Sanctum/JWT). Получение токена двумя способами:
+
+### Регистрация
+`POST /api/v1/auth/register`
+```json
+{
+  "email": "user@example.com",
+  "password": "secret123",
+  "password_confirmation": "secret123"
+}
+```
+
+### Логин
+`POST /api/v1/auth/login`
+```json
+{
+  "email": "user@example.com",
+  "password": "secret123"
+}
+```
+
+Дальше добавляйте заголовок:
+```
+Authorization: Bearer <token>
+```
 
 ---
 
-## 🔧 Установка и запуск
+## Эндпоинты (основные по OpenAPI)
 
+### Users
+- `POST /api/v1/auth/register` — регистрация
+- `POST /api/v1/auth/login` — логин
+- `POST /api/v1/auth/forgot-password` — отправка письма для сброса
+- `POST /api/v1/auth/reset-password` — сброс пароля по токену
+- `POST /api/v1/auth/logout` — выход (отзыв токена) *(требует Bearer)*
+- `PATCH /api/v1/user/password` — смена пароля *(Bearer)*
+- `DELETE /api/v1/user` — удалить аккаунт *(Bearer)*
+
+### Notes
+- `GET /api/v1/notes` — список заметок *(Bearer)*
+- `POST /api/v1/notes` — создать *(Bearer)*
+- `PUT /api/v1/notes/{note_id}` — обновить *(Bearer)*
+- `PATCH /api/v1/notes/{note_id}` — частично обновить *(Bearer)*
+- `DELETE /api/v1/notes/{note_id}` — удалить *(Bearer)*
+
+---
+
+## Swagger / OpenAPI
+
+- **UI**: `GET /api/documentation`
+- **Схема**: храните `openapi.json`/`openapi.yaml` в репозитории или генерируйте из кода.
+- **Безопасность**: `bearerAuth` (JWT/Sanctum).
+
+Если автоген отключён, используйте:
 ```bash
-# 1. Клонирование репозитория
-git clone https://github.com/Donk1hong/Notes-app.git
-cd Notes-app
-
-# 2. Установка зависимостей
-composer install
-npm install
-
-# 3. Настройка окружения
-cp .env.example .env
-# укажите параметры подключения к БД (DB_DATABASE, DB_USERNAME, DB_PASSWORD)
-
-# 4. Генерация ключа и миграции
-php artisan key:generate
-php artisan migrate
-
-# 5. Запуск сервера разработки
-php artisan serve
+docker compose exec app php artisan l5-swagger:generate
 ```
 
-🔗 Приложение будет доступно по адресу:  
-👉 `http://localhost:8000`
-
 ---
 
-## 📂 Структура проекта
+## Postman-коллекция
 
-<details>
-<summary>Примерная структура</summary>
-
+Импортируйте коллекцию **Notes** по ссылке:
 ```
-Notes-app/
-├── app/
-│   ├── Http/
-│   ├── Models/
-│   └── ...
-├── bootstrap/
-├── config/
-├── database/
-│   └── migrations/
-├── public/
-├── resources/
-│   ├── views/
-│   └── ...
-├── routes/
-│   └── web.php
-├── .env.example
-├── composer.json
-└── ...
+https://www.postman.com/roma1324465-2781074/workspace/apinotes/collection/47984426-013c1987-7fb1-43a8-ad6c-075810517cb2?action=share&source=copy-link&creator=47984426
 ```
 
-</details>
+Переменные:
+- `base_url` — `http://localhost:8000` (или ваш порт)
+- `token` — Bearer, полученный после логина/регистрации
+
+Коллекция уже содержит:
+- `GET /api/documentation`
+- `auth` (register/login/forgot/reset/logout)
+- `user` (password/delete)
+- `notes` (CRUD)
 
 ---
 
-## 🧪 Postman-коллекция
+## Примеры cURL
 
-Для тестирования API эндпоинтов доступна готовая Postman-коллекция.
+> Замените `<TOKEN>` на реальный токен.
 
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/47984426-16a9fcd6-2c58-4bce-a699-d410b4e39099?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D47984426-16a9fcd6-2c58-4bce-a699-d410b4e39099%26entityType%3Dcollection%26workspaceId%3Dfac36783-f246-4412-8ce6-2432522bb708)
+**Список заметок**
+```bash
+curl -X GET http://localhost:8000/api/v1/notes   -H "Accept: application/json"   -H "Authorization: Bearer <TOKEN>"
+```
 
-Коллекция для тестирования API доступна в двух форматах в репозитории:
--   **Коллекция:** [`postman/Notes-app.postman_collection.json`](./postman/Notes-app.postman_collection.json)
--   **Окружение:** [`postman/Notes-app-env.postman_environment.json`](./postman/Notes-app-env.postman_environment.json)
+**Создать заметку**
+```bash
+curl -X POST http://localhost:8000/api/v1/notes   -H "Content-Type: application/json"   -H "Authorization: Bearer <TOKEN>"   -d '{"title":"Моя заметка","category":"work","description":"Текст"}'
+```
 
-### Использование:
-1.  **Скачайте файлы** из папки `postman/` или нажмите кнопку «Run in Postman» выше.
-2.  Импортируйте коллекцию и окружение в Postman.
-3.  В окружении установите переменную `host` (по умолчанию: `http://localhost:8000/api/v1`).
-4.  Выполните запросы из папки **`Account`** (`register` или `login`), чтобы получить токен. Он автоматически сохранится в переменную `token`.
-5.  Используйте CRUD-запросы из папки **`Notes`** (`create`, `get all`, `get one`, `update`, `delete`). Токен будет автоматически подставляться в заголовки.
-
----
-
-## 👤 Автор
-
--   **GitHub:** [Donk1hong](https://github.com/Donk1hong)
+**Сброс пароля (шаг 1 — письмо)**
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/forgot-password   -H "Content-Type: application/json"   -d '{"email":"user@example.com"}'
+# Затем откройте Mailhog UI: http://localhost:8025 и используйте токен из письма
+```
 
 ---
 
-## ✨ Учебный проект для практики разработки на Laravel.
+## Диагностика
+
+- **401 Unauthorized:** проверьте заголовок `Authorization: Bearer <token>` и актуальность токена.
+- **Swagger UI не открывается:** убедитесь, что маршрут `/api/documentation` активен и порт проброшен.
+- **БД не коннектится:** `DB_HOST` должен совпадать с именем сервиса БД в compose (`db`), проверьте порт `3306` и креды.
+- **Письма не приходят:** проверьте, что `MAIL_HOST=mailhog`, `MAIL_PORT=1025`, а Mailhog UI доступен по `http://localhost:8025`.
+- **Миграции/сиды:** запустите `php artisan migrate --seed` внутри контейнера `app`.
+
+---
+
+## Лицензия
+MIT
