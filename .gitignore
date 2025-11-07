@@ -1,33 +1,32 @@
-app/vendor/
-app/node_modules/
+/app/vendor/
+/app/node_modules/
 
-**/.env
-*.env
 .env
-.env.*.local
+.env.*
+**/.env
+**/.env.*.local
+!/.env.example
+!/app/.env.example
 
-app/storage/*
-!app/storage/.gitignore
-app/bootstrap/cache/*
-!app/bootstrap/cache/.gitignore
+/app/storage/*
+!/app/storage/.gitignore
 
-app/public/build/
-app/public/hot
+/app/bootstrap/cache/*
+!/app/bootstrap/cache/.gitignore
+
+/app/public/build/
+/app/public/hot
 
 /.phpunit.cache
-.phpunit.result.cache
+/.phpunit.result.cache
 
-/.idea
-/.vscode
+/.idea/
+/.vscode/
+
 **/.DS_Store
 **/__MACOSX/
-
-app/storage/logs/*.log
 
 npm-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
-.DS_Store
-.gitattributes
-.editorconfig
+/env/
